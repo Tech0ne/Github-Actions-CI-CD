@@ -29,16 +29,19 @@ jobs:
           uses: Tech0ne/Coding-Style-Github-Action@v1
           id: coding_style
 
+        - name: Build documentation
+          uses: Tech0ne/Build-Documentation-Github-Action@v1
+          with:
+            ssh_key:
+              ${{ secrets.SSH_PRIVATE_KEY }}
+            pages_repo:
+              ${{ secrets.DOCUMENTATION_REPO }}
+            subfolder_name:
+              ${{ github.event.repository.name }}
+
         - name: Add .github/ to .gitignore
           run: |
             echo ".github/" >> .gitignore
-
-        # - name: Build documentation
-        #   uses: Tech0ne/Build-Documentation-Github-Action@v1
-        #   with:
-        #     ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-        #     documentation_repo: ${{ secrets.DOCUMENTATION_REPO }}
-        #     subdirectory_name: ${{ github.event.repository.name }}
 
         - name: Mirror repository to target repo
           uses: pixta-dev/repository-mirroring-action@v1
